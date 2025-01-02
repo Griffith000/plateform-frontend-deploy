@@ -11,22 +11,23 @@ import axiosInstance from '@/axiosInstance*'
 import Layout from '@/mic-component/Admin_UI/Layout/Layout'
 
 const Page = () => {
-  const [selectedEvent, setSelectedEvent] = useState<any>(null)
+  const [selectedEvent, setSelectedEvent] = useState<any>()
   const [sessions, setSessions] = useState([])
 
-  useEffect(() => {
-    const loadSessions = async () => {
-      try {
-        const response = await axiosInstance.get('/session/all')
-        setSessions(response.data)
-      } catch (error) {
-        console.error("Erreur lors de l'upload du fichier", error)
-        alert("Erreur lors de l'upload du fichier")
-      }
-    }
+  // useEffect(() => {
+  //   const loadSessions = async () => {
+  //     try {
+  //       const response = await axiosInstance.get('/session/all')
+  //       setSessions(response.data)
+  //       console.log(response.data)
+  //     } catch (error) {
+  //       console.error("Erreur lors de l'upload du fichier", error)
+  //       alert("Erreur lors de l'upload du fichier")
+  //     }
+  //   }
 
-    loadSessions()
-  }, [])
+  //   loadSessions()
+  // }, [])
 
   const handleEventClick = (info: any) => {
     setSelectedEvent(info.event.extendedProps)
