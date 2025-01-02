@@ -3,7 +3,7 @@ import Autocomplete from '@mui/material/Autocomplete'
 import TextField from '@mui/material/TextField'
 import CircularProgress from '@mui/material/CircularProgress'
 import Typography from '@mui/material/Typography'
-import axios from 'axios'
+import axios from '@/axiosInstance'
 import { ENDPOINTS } from '@/store/constants/api'
 
 const DepartmentSelect = ({ value = [], onChange }) => {
