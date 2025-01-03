@@ -10,16 +10,6 @@ export const fetchSessions = async (
     const response = await axiosInstance.get<Session[]>(
       ENDPOINTS.FETCH_SESSIONS_BY_DEPARTMENT(DepartmentId)
     )
-
-    // axiosInstance.interceptors.response.use(
-    //   response => response,
-    //   error => {
-    //     if (error.response?.status === 401) {
-    //       // Rediriger vers la page de connexion
-    //     }
-    //     return Promise.reject(error)
-    //   }
-    // )
     return response.data
   } catch (error) {
     console.error('Erreur lors de la récupération des sessions:', error)

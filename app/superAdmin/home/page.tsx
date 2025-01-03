@@ -1,21 +1,24 @@
 'use client'
 
 import Layout from '@/mic-component/Admin_UI/Layout/Layout'
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import { parse } from 'date-fns'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import { Box, Typography } from '@mui/material'
+import { useSessionsStore } from '@/store/MyStore/SessionsStore'
 
-type Session = {
+export type Session = {
   _id: string
   Title: string
-  Date: string
-  Instructor: string
-  Room: string
   Description: string
+  Instructor: string
+  InstructorId: string
+  Date: string
+  createdAt: string
+  Room: string
 }
 
 const mockSessions: Session[] = [
@@ -25,7 +28,9 @@ const mockSessions: Session[] = [
     Description:
       'Apprenez les bases de la programmation avec des exemples pratiques.',
     Instructor: 'Marie Dupont',
-    Date: '01/01/2024 07:06:00',
+    InstructorId: 'string',
+    Date: '01/01/2025 07:06:00',
+    createdAt: 'string',
     Room: 'Salle A1'
   },
   {
@@ -34,7 +39,9 @@ const mockSessions: Session[] = [
     Description:
       'Explorez les concepts avancés de JavaScript, comme les closures et les promesses.',
     Instructor: 'Jean Martin',
-    Date: '03/01/2024 07:06:00',
+    InstructorId: 'string',
+    Date: '02/01/2025 07:06:00',
+    createdAt: 'string',
     Room: 'Salle B3'
   },
   {
@@ -43,13 +50,27 @@ const mockSessions: Session[] = [
     Description:
       'Découvrez les principes fondamentaux du Machine Learning avec des exercices pratiques.',
     Instructor: 'Sophie Leclerc',
-    Date: '05/01/2025 07:06:00',
+    InstructorId: 'string',
+    Date: '03/01/2025 07:06:00',
+    createdAt: 'string',
     Room: 'Salle C2'
   }
 ]
 
 export default function Page() {
-  const sessions: Session[] = mockSessions
+  const departmentId = '670792e3ee0e13424434d371'
+  const fetchSessions = useSessionsStore(state => state.fetchSessions)
+  const sessions: Session[] = useSessionsStore(state => state.sessions)
+  useEffect(() => {
+    const loadSessions = async (departmentId: string) => {
+      await fetchSessions(departmentId)
+    }
+    if (departmentId) {
+      loadSessions(departmentId)
+    }
+  }, [])
+
+  // const sessions: Session[] = mockSessions
   const handleEventClick = (info: any) => {
     //setSelectedEvent(info.event.extendedProps)
   }
