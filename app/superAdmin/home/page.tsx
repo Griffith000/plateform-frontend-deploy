@@ -2,7 +2,7 @@
 
 import Layout from '@/mic-component/Admin_UI/Layout/Layout'
 import React, { useState } from 'react'
-import { Card, CardContent, Grid, Paper, Typography } from '@mui/material'
+import { Card, CardContent, Box, Paper, Typography } from '@mui/material'
 import Empty from '@/mic-component/lottie_animation/Empty'
 
 type Session = {
@@ -81,14 +81,26 @@ export default function Page() {
         }}
       >
         {sessions.length > 0 ? (
-          <Grid container spacing={2}>
+          <Box
+            display='flex'
+            flexWrap='wrap'
+            gap={2} // Equivalent à spacing
+            justifyContent='space-between'
+          >
             {sessions.map(session => (
-              <Grid item xs={12} sm={6} md={4} key={session._id}>
-                {/* <SessionCard session={session} /> */}
-                <div> session </div>
-              </Grid>
+              <Box
+                key={session._id}
+                flexBasis={{
+                  xs: '100%', // Pour les petits écrans, chaque élément prend toute la largeur
+                  sm: 'calc(50% - 16px)', // Pour les écrans moyens, chaque élément prend 50% avec un écart
+                  md: 'calc(33.33% - 16px)' // Pour les écrans larges, chaque élément prend un tiers avec un écart
+                }}
+                boxSizing='border-box'
+              >
+                <div>session</div>
+              </Box>
             ))}
-          </Grid>
+          </Box>
         ) : (
           <EmptyState />
         )}
