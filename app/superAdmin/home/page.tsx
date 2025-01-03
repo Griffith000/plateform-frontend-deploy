@@ -3,6 +3,12 @@
 import Layout from '@/mic-component/Admin_UI/Layout/Layout'
 import React from 'react'
 
+import FullCalendar from '@fullcalendar/react'
+import dayGridPlugin from '@fullcalendar/daygrid'
+import { parse } from 'date-fns'
+import timeGridPlugin from '@fullcalendar/timegrid'
+import { Box, Typography } from '@mui/material'
+
 type Session = {
   _id: string
   Title: string
@@ -44,38 +50,39 @@ const mockSessions: Session[] = [
 
 export default function Page() {
   const sessions: Session[] = mockSessions
+  const handleEventClick = (info: any) => {
+    //setSelectedEvent(info.event.extendedProps)
+  }
 
   return (
     <Layout>
       <div style={{ marginTop: '20px', padding: '10px' }}>
         {sessions.length > 0 ? (
-          <div
-            style={{ display: 'grid', gap: '10px', gridTemplateColumns: '1fr' }}
-          >
-            {sessions.map(session => (
-              <div
-                key={session._id}
-                style={{
-                  border: '1px solid #ccc',
-                  borderRadius: '5px',
-                  padding: '10px',
-                  background: '#f9f9f9'
-                }}
-              >
-                <h3 style={{ margin: '0 0 5px' }}>{session.Title}</h3>
-                <p style={{ margin: '5px 0' }}>
-                  <strong>Instructor:</strong> {session.Instructor}
-                </p>
-                <p style={{ margin: '5px 0' }}>
-                  <strong>Date:</strong> {session.Date}
-                </p>
-                <p style={{ margin: '5px 0' }}>
-                  <strong>Room:</strong> {session.Room}
-                </p>
-                <p style={{ margin: '5px 0' }}>{session.Description}</p>
-              </div>
-            ))}
-          </div>
+          <>
+            <FullCalendar
+              plugins={[dayGridPlugin, timeGridPlugin]}
+              initialView='dayGridMonth'
+              weekends={true}
+              headerToolbar={{
+                right: 'prev,next today',
+                center: 'title',
+                left: 'dayGridMonth,timeGridWeek,timeGridDay'
+              }}
+              events={sessions.map(session => ({
+                title: session.Title || 'Untitled Session',
+                start: parse(session.Date, 'dd/MM/yyyy HH:mm:ss', new Date()),
+                extendedProps: {
+                  id: session._id,
+                  title: session.Title || 'Untitled Session',
+                  instructor: session.Instructor || 'Unknown Instructor',
+                  room: session.Room || 'No Room Assigned',
+                  description: session.Description || 'No description available'
+                }
+              }))}
+              eventContent={eventInfo => renderEventContent(eventInfo)}
+              eventClick={handleEventClick}
+            />
+          </>
         ) : (
           <div style={{ textAlign: 'center', marginTop: '20px' }}>
             <p>No sessions available</p>
@@ -83,5 +90,41 @@ export default function Page() {
         )}
       </div>
     </Layout>
+  )
+}
+function renderEventContent(eventInfo: any) {
+  const { event } = eventInfo
+  const { title, start } = event
+  const { instructor, room, description } = event.extendedProps
+  return (
+    <Box
+      className='rounded-md bg-gradient-to-r from-secondary to-primary p-2 text-center text-white'
+      sx={{
+        width: '96%',
+        overflow: 'auto',
+        justifyContent: 'center',
+        padding: 1,
+        backgroundColor: 'rgba(255, 255, 255, 0.9)',
+        borderRadius: 2,
+        boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'
+      }}
+    >
+      <Typography variant='body2' fontWeight='bold'>
+        {title}
+      </Typography>
+      <Typography variant='body2'>
+        <strong>
+          {new Date(start).toLocaleTimeString('en-US', {
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            hour12: false
+          })}
+        </strong>
+      </Typography>
+      <Typography variant='body2'>
+        <strong>Room:</strong> {room}
+      </Typography>
+    </Box>
   )
 }
