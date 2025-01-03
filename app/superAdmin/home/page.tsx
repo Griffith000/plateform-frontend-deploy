@@ -1,7 +1,15 @@
 'use client'
 import Layout from '@/mic-component/Admin_UI/Layout/Layout'
 import React, { useEffect, useState } from 'react'
-import { Box, Paper, Typography, Modal } from '@mui/material'
+import {
+  Card,
+  CardContent,
+  Grid,
+  Box,
+  Paper,
+  Typography,
+  Modal
+} from '@mui/material'
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import { useSearchParams } from 'next/navigation'
@@ -131,40 +139,47 @@ export default function Page() {
         }}
       >
         {currentSessions && currentSessions.length > 0 ? (
-          <Box
-            sx={{
-              padding: 1,
-              backgroundColor: 'rgba(255, 255, 255, 0.8)',
-              borderRadius: 2,
-              width: '70%',
-              height: '70%'
-            }}
-          >
-            <FullCalendar
-              plugins={[dayGridPlugin, timeGridPlugin]}
-              initialView='dayGridMonth'
-              weekends={true}
-              headerToolbar={{
-                right: 'prev,next today',
-                center: 'title',
-                left: 'dayGridMonth,timeGridWeek,timeGridDay'
-              }}
-              events={currentSessions.map(session => ({
-                title: session.Title || 'Untitled Session',
-                start: parse(session.Date, 'dd/MM/yyyy HH:mm:ss', new Date()),
-                extendedProps: {
-                  id: session._id,
-                  title: session.Title || 'Untitled Session',
-                  instructor: session.Instructor || 'Unknown Instructor',
-                  room: session.Room || 'No Room Assigned',
-                  description: session.Description || 'No description available'
-                }
-              }))}
-              eventContent={eventInfo => renderEventContent(eventInfo)}
-              eventClick={handleEventClick} // Gestionnaire pour le clic sur un événement
-            />
-          </Box>
+          <Grid container spacing={2}>
+            {currentSessions.map(session => (
+              <Grid item xs={12} sm={6} md={4} key={session._id}>
+                <SessionCard session={session} />
+              </Grid>
+            ))}
+          </Grid>
         ) : (
+          // <Box
+          //   sx={{
+          //     padding: 1,
+          //     backgroundColor: 'rgba(255, 255, 255, 0.8)',
+          //     borderRadius: 2,
+          //     width: '70%',
+          //     height: '70%'
+          //   }}
+          // >
+          //   <FullCalendar
+          //     plugins={[dayGridPlugin, timeGridPlugin]}
+          //     initialView='dayGridMonth'
+          //     weekends={true}
+          //     headerToolbar={{
+          //       right: 'prev,next today',
+          //       center: 'title',
+          //       left: 'dayGridMonth,timeGridWeek,timeGridDay'
+          //     }}
+          //     events={currentSessions.map(session => ({
+          //       title: session.Title || 'Untitled Session',
+          //       start: parse(session.Date, 'dd/MM/yyyy HH:mm:ss', new Date()),
+          //       extendedProps: {
+          //         id: session._id,
+          //         title: session.Title || 'Untitled Session',
+          //         instructor: session.Instructor || 'Unknown Instructor',
+          //         room: session.Room || 'No Room Assigned',
+          //         description: session.Description || 'No description available'
+          //       }
+          //     }))}
+          //     eventContent={eventInfo => renderEventContent(eventInfo)}
+          //     eventClick={handleEventClick} // Gestionnaire pour le clic sur un événement
+          //   />
+          // </Box>
           <div>
             <Empty />
             <Typography variant='h5' className='text-center'>
@@ -174,7 +189,7 @@ export default function Page() {
         )}
 
         {/* Modal pour afficher les détails de l'événement */}
-        <Modal
+        {/* <Modal
           open={!!selectedEvent}
           onClose={handleCloseModal}
           aria-labelledby='event-modal-title'
@@ -222,44 +237,66 @@ export default function Page() {
               </>
             )}
           </Box>
-        </Modal>
+        </Modal> */}
       </Paper>
     </Layout>
   )
 }
-function renderEventContent(eventInfo: any) {
-  const { event } = eventInfo
-  const { title, start } = event
-  const { instructor, room, description } = event.extendedProps
-  return (
-    <Box
-      className='rounded-md bg-gradient-to-r from-secondary to-primary p-2 text-center text-white'
-      sx={{
-        width: '96%',
-        overflow: 'auto',
-        justifyContent: 'center',
-        padding: 1,
-        backgroundColor: 'rgba(255, 255, 255, 0.9)',
-        borderRadius: 2,
-        boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'
-      }}
-    >
-      <Typography variant='body2' fontWeight='bold'>
-        {title}
+const SessionCard: React.FC<{ session: Session }> = ({ session }) => (
+  <Card variant='outlined' sx={{ marginBottom: 2 }}>
+    <CardContent>
+      <Typography variant='h6' gutterBottom>
+        {session.Title}
       </Typography>
-      <Typography variant='body2'>
-        <strong>
-          {new Date(start).toLocaleTimeString('en-US', {
-            hour: '2-digit',
-            minute: '2-digit',
-            second: '2-digit',
-            hour12: false
-          })}
-        </strong>
+      <Typography variant='body2' color='text.secondary'>
+        {session.Description}
       </Typography>
-      <Typography variant='body2'>
-        <strong>Room:</strong> {room}
+      <Typography variant='body2' color='text.primary' sx={{ marginTop: 1 }}>
+        <strong>Instructor:</strong> {session.Instructor}
       </Typography>
-    </Box>
-  )
-}
+      <Typography variant='body2' color='text.primary'>
+        <strong>Date:</strong> {session.Date}
+      </Typography>
+      <Typography variant='body2' color='text.primary'>
+        <strong>Room:</strong> {session.Room}
+      </Typography>
+    </CardContent>
+  </Card>
+)
+
+// function renderEventContent(eventInfo: any) {
+//   const { event } = eventInfo
+//   const { title, start } = event
+//   const { instructor, room, description } = event.extendedProps
+//   return (
+//     <Box
+//       className='rounded-md bg-gradient-to-r from-secondary to-primary p-2 text-center text-white'
+//       sx={{
+//         width: '96%',
+//         overflow: 'auto',
+//         justifyContent: 'center',
+//         padding: 1,
+//         backgroundColor: 'rgba(255, 255, 255, 0.9)',
+//         borderRadius: 2,
+//         boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'
+//       }}
+//     >
+//       <Typography variant='body2' fontWeight='bold'>
+//         {title}
+//       </Typography>
+//       <Typography variant='body2'>
+//         <strong>
+//           {new Date(start).toLocaleTimeString('en-US', {
+//             hour: '2-digit',
+//             minute: '2-digit',
+//             second: '2-digit',
+//             hour12: false
+//           })}
+//         </strong>
+//       </Typography>
+//       <Typography variant='body2'>
+//         <strong>Room:</strong> {room}
+//       </Typography>
+//     </Box>
+//   )
+// }
