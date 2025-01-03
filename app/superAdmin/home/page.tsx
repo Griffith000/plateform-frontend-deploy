@@ -20,7 +20,65 @@ type Session = {
 }
 
 export default function Page() {
-  const sessions = useSessionsStore(state => state.sessions)
+  // const sessions = useSessionsStore(state => state.sessions)
+  const sessions: Session[] = [
+    {
+      _id: '1',
+      Title: 'Introduction à la Programmation',
+      Description:
+        'Apprenez les bases de la programmation avec des exemples pratiques.',
+      Instructor: 'Marie Dupont',
+
+      Date: '2025-01-15',
+
+      Room: 'Salle A1'
+    },
+    {
+      _id: '2',
+      Title: 'JavaScript Avancé',
+      Description:
+        'Explorez les concepts avancés de JavaScript, comme les closures et les promesses.',
+      Instructor: 'Jean Martin',
+
+      Date: '2025-01-20',
+
+      Room: 'Salle B3'
+    },
+    {
+      _id: '3',
+      Title: 'Introduction au Machine Learning',
+      Description:
+        'Découvrez les principes fondamentaux du Machine Learning avec des exercices pratiques.',
+      Instructor: 'Sophie Leclerc',
+
+      Date: '2025-01-25',
+
+      Room: 'Salle C2'
+    },
+    {
+      _id: '4',
+      Title: 'Développement Web avec React',
+      Description:
+        'Apprenez à créer des applications web interactives avec React.',
+      Instructor: 'David Moreau',
+
+      Date: '2025-01-30',
+
+      Room: 'Salle D1'
+    },
+    {
+      _id: '5',
+      Title: 'Gestion de Projet Agile',
+      Description:
+        'Introduction aux principes et outils de gestion de projet Agile.',
+      Instructor: 'Emma Blanchard',
+
+      Date: '2025-02-05',
+
+      Room: 'Salle E4'
+    }
+  ]
+
   const fetchSessions = useSessionsStore(state => state.fetchSessions)
 
   const [currentPage, setCurrentPage] = useState(1)
