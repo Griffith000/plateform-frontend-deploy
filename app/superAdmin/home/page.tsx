@@ -81,11 +81,46 @@ export default function Page() {
         }}
       >
         {sessions.length > 0 ? (
-          <div>session</div>
+          <div>
+            {sessions.map(session => (
+              <div key={session._id}>
+                <div>{session.Title}</div>
+              </div>
+            ))}
+          </div>
         ) : (
-          <div>no sessions available</div>
+          <EmptyState />
         )}
       </Paper>
     </Layout>
   )
 }
+
+const SessionCard: React.FC<{ session: Session }> = ({ session }) => (
+  <Card variant='outlined' sx={{ marginBottom: 2 }}>
+    <CardContent>
+      <Typography variant='h6' gutterBottom>
+        {session.Title}
+      </Typography>
+      <Typography variant='body2' color='text.secondary'>
+        {session.Description}
+      </Typography>
+      <Typography variant='body2' sx={{ marginTop: 1 }}>
+        <strong>Instructor:</strong> {session.Instructor}
+      </Typography>
+      <Typography variant='body2'>
+        <strong>Date:</strong> {session.Date}
+      </Typography>
+      <Typography variant='body2'>
+        <strong>Room:</strong> {session.Room}
+      </Typography>
+    </CardContent>
+  </Card>
+)
+
+const EmptyState = () => (
+  <div style={{ textAlign: 'center' }}>
+    <Empty />
+    <Typography variant='h5'>No sessions available</Typography>
+  </div>
+)
