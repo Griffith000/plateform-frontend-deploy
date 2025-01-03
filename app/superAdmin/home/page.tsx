@@ -84,7 +84,8 @@ export default function Page() {
           <Grid container spacing={2}>
             {sessions.map(session => (
               <Grid item xs={12} sm={6} md={4} key={session._id}>
-                <SessionCard session={session} />
+                {/* <SessionCard session={session} /> */}
+                <div> session </div>
               </Grid>
             ))}
           </Grid>
