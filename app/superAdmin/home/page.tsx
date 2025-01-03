@@ -87,16 +87,16 @@ export default function Page() {
 
   const searchParams = useSearchParams()
   // const departmentId = searchParams.get('id_dep')
-  const departmentId = '670792e3ee0e13424434d371'
+  // const departmentId = '670792e3ee0e13424434d371'
 
-  useEffect(() => {
-    const loadSessions = async (departmentId: string) => {
-      await fetchSessions(departmentId)
-    }
-    if (departmentId) {
-      loadSessions(departmentId)
-    }
-  }, [])
+  // useEffect(() => {
+  //   const loadSessions = async (departmentId: string) => {
+  //     await fetchSessions(departmentId)
+  //   }
+  //   if (departmentId) {
+  //     loadSessions(departmentId)
+  //   }
+  // }, [])
 
   const indexOfLastItem = currentPage * itemsPerPage
   const indexOfFirstItem = indexOfLastItem - itemsPerPage
