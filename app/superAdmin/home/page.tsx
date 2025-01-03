@@ -25,7 +25,7 @@ const mockSessions: Session[] = [
     Description:
       'Apprenez les bases de la programmation avec des exemples pratiques.',
     Instructor: 'Marie Dupont',
-    Date: '2025-01-15',
+    Date: '01/01/2024 07:06:00',
     Room: 'Salle A1'
   },
   {
@@ -34,7 +34,7 @@ const mockSessions: Session[] = [
     Description:
       'Explorez les concepts avancés de JavaScript, comme les closures et les promesses.',
     Instructor: 'Jean Martin',
-    Date: '2025-01-20',
+    Date: '03/01/2024 07:06:00',
     Room: 'Salle B3'
   },
   {
@@ -43,7 +43,7 @@ const mockSessions: Session[] = [
     Description:
       'Découvrez les principes fondamentaux du Machine Learning avec des exercices pratiques.',
     Instructor: 'Sophie Leclerc',
-    Date: '2025-01-25',
+    Date: '05/01/2025 07:06:00',
     Room: 'Salle C2'
   }
 ]
