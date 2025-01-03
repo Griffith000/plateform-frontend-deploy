@@ -81,59 +81,11 @@ export default function Page() {
         }}
       >
         {sessions.length > 0 ? (
-          <Box
-            display='flex'
-            flexWrap='wrap'
-            gap={2} // Equivalent à spacing
-            justifyContent='space-between'
-          >
-            {sessions.map(session => (
-              <Box
-                key={session._id}
-                flexBasis={{
-                  xs: '100%', // Pour les petits écrans, chaque élément prend toute la largeur
-                  sm: 'calc(50% - 16px)', // Pour les écrans moyens, chaque élément prend 50% avec un écart
-                  md: 'calc(33.33% - 16px)' // Pour les écrans larges, chaque élément prend un tiers avec un écart
-                }}
-                boxSizing='border-box'
-              >
-                <div>session</div>
-              </Box>
-            ))}
-          </Box>
+          <div>session</div>
         ) : (
-          <EmptyState />
+          <div>no sessions available</div>
         )}
       </Paper>
     </Layout>
   )
 }
-
-const SessionCard: React.FC<{ session: Session }> = ({ session }) => (
-  <Card variant='outlined' sx={{ marginBottom: 2 }}>
-    <CardContent>
-      <Typography variant='h6' gutterBottom>
-        {session.Title}
-      </Typography>
-      <Typography variant='body2' color='text.secondary'>
-        {session.Description}
-      </Typography>
-      <Typography variant='body2' sx={{ marginTop: 1 }}>
-        <strong>Instructor:</strong> {session.Instructor}
-      </Typography>
-      <Typography variant='body2'>
-        <strong>Date:</strong> {session.Date}
-      </Typography>
-      <Typography variant='body2'>
-        <strong>Room:</strong> {session.Room}
-      </Typography>
-    </CardContent>
-  </Card>
-)
-
-const EmptyState = () => (
-  <div style={{ textAlign: 'center' }}>
-    <Empty />
-    <Typography variant='h5'>No sessions available</Typography>
-  </div>
-)
