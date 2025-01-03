@@ -64,16 +64,6 @@ const mockSessions: Session[] = [
 
 export default function Page() {
   const sessions: Session[] = mockSessions
-  const [currentPage, setCurrentPage] = useState(1)
-  const itemsPerPage = 5
-
-  const indexOfLastItem = currentPage * itemsPerPage
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage
-  const currentSessions = sessions.slice(indexOfFirstItem, indexOfLastItem)
-
-  const handlePageChange = (newPage: number) => {
-    setCurrentPage(newPage)
-  }
 
   return (
     <Layout>
@@ -90,9 +80,9 @@ export default function Page() {
           alignItems: 'center'
         }}
       >
-        {currentSessions.length > 0 ? (
+        {sessions.length > 0 ? (
           <Grid container spacing={2}>
-            {currentSessions.map(session => (
+            {sessions.map(session => (
               <Grid item xs={12} sm={6} md={4} key={session._id}>
                 <SessionCard session={session} />
               </Grid>
