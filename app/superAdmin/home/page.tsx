@@ -37,28 +37,15 @@ export default function Page() {
   return (
     <Layout>
       <div style={{ padding: '16px' }}>
-        <Grid container spacing={2}>
-          {assignments.map(assignment => (
-            <Grid key={assignment._id}>
-              <div
-                style={{
-                  border: '1px solid #ccc',
-                  borderRadius: '8px',
-                  padding: '16px',
-                  textAlign: 'center'
-                }}
-              >
-                <Typography variant='h6'>{assignment.Title}</Typography>
-                <Typography variant='body2' color='textSecondary'>
-                  Due Date: {assignment.DueDate}
-                </Typography>
-                <Typography variant='body1'>
-                  {assignment.Description}
-                </Typography>
-              </div>
-            </Grid>
-          ))}
-        </Grid>
+        {assignments.map(assignment => (
+          <div key={assignment._id}>
+            <Typography variant='h6'>{assignment.Title}</Typography>
+            <Typography variant='body2' color='textSecondary'>
+              Due Date: {assignment.DueDate}
+            </Typography>
+            <Typography variant='body1'>{assignment.Description}</Typography>
+          </div>
+        ))}
       </div>
     </Layout>
   )
