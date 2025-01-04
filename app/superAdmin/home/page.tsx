@@ -66,11 +66,7 @@ export default function Page() {
     <Layout>
       <div style={{ marginTop: '20px', padding: '10px' }}>
         {assignments.length > 0 ? (
-          assignments.map(assignment => (
-            <div key={assignment._id}>
-              <div>{assignment.Title}</div>
-            </div>
-          ))
+          <div> bonjour </div>
         ) : (
           <div className='flex h-full flex-col items-center justify-center'>
             <Empty />
