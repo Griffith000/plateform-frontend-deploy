@@ -1,13 +1,13 @@
 'use client'
 
 import Layout from '@/mic-component/Admin_UI/Layout/Layout'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import { parse } from 'date-fns'
 import timeGridPlugin from '@fullcalendar/timegrid'
-import { Box, Typography } from '@mui/material'
+import { Box, Modal, Typography } from '@mui/material'
 import { useSessionsStore } from '@/store/MyStore/SessionsStore'
 
 export type Session = {
@@ -21,46 +21,11 @@ export type Session = {
   Room: string
 }
 
-const mockSessions: Session[] = [
-  {
-    _id: '1',
-    Title: 'Introduction à la Programmation',
-    Description:
-      'Apprenez les bases de la programmation avec des exemples pratiques.',
-    Instructor: 'Marie Dupont',
-    InstructorId: 'string',
-    Date: '01/01/2025 07:06:00',
-    createdAt: 'string',
-    Room: 'Salle A1'
-  },
-  {
-    _id: '2',
-    Title: 'JavaScript Avancé',
-    Description:
-      'Explorez les concepts avancés de JavaScript, comme les closures et les promesses.',
-    Instructor: 'Jean Martin',
-    InstructorId: 'string',
-    Date: '02/01/2025 07:06:00',
-    createdAt: 'string',
-    Room: 'Salle B3'
-  },
-  {
-    _id: '3',
-    Title: 'Introduction au Machine Learning',
-    Description:
-      'Découvrez les principes fondamentaux du Machine Learning avec des exercices pratiques.',
-    Instructor: 'Sophie Leclerc',
-    InstructorId: 'string',
-    Date: '03/01/2025 07:06:00',
-    createdAt: 'string',
-    Room: 'Salle C2'
-  }
-]
-
 export default function Page() {
   const departmentId = '670792e3ee0e13424434d371'
   const fetchSessions = useSessionsStore(state => state.fetchSessions)
   const sessions: Session[] = useSessionsStore(state => state.sessions)
+  const [selectedEvent, setSelectedEvent] = useState<any>(null)
   useEffect(() => {
     const loadSessions = async (departmentId: string) => {
       await fetchSessions(departmentId)
@@ -70,9 +35,11 @@ export default function Page() {
     }
   }, [])
 
-  // const sessions: Session[] = mockSessions
   const handleEventClick = (info: any) => {
-    //setSelectedEvent(info.event.extendedProps)
+    setSelectedEvent(info.event.extendedProps)
+  }
+  const handleCloseModal = () => {
+    setSelectedEvent(null)
   }
 
   return (
@@ -103,6 +70,55 @@ export default function Page() {
               eventContent={eventInfo => renderEventContent(eventInfo)}
               eventClick={handleEventClick}
             />
+            <Modal
+              open={!!selectedEvent}
+              onClose={handleCloseModal}
+              aria-labelledby='event-modal-title'
+              aria-describedby='event-modal-description'
+            >
+              <Box
+                sx={{
+                  position: 'absolute',
+                  top: '50%',
+                  left: '50%',
+                  transform: 'translate(-50%, -50%)',
+                  width: 400,
+                  bgcolor: 'background.paper',
+
+                  boxShadow: 24,
+
+                  borderRadius: 4
+                }}
+              >
+                {selectedEvent && (
+                  <>
+                    <Typography
+                      className='rounded-md bg-gradient-to-r from-secondary to-primary p-2 text-center text-white'
+                      id='event-modal-title'
+                      variant='h6'
+                      component='h2'
+                    >
+                      {selectedEvent.title || 'Untitled Session'}
+                    </Typography>
+                    <Typography
+                      id='event-modal-description'
+                      sx={{ pl: 4, pr: 4, mt: 2 }}
+                    >
+                      <strong>Instructor:</strong> {selectedEvent.instructor}
+                    </Typography>
+                    <Typography sx={{ pl: 4, pr: 4 }}>
+                      <strong>Room:</strong> {selectedEvent.room}
+                    </Typography>
+                    <Typography sx={{ pl: 4, pr: 4 }}>
+                      <strong>Duration :</strong> 2 hours
+                    </Typography>
+                    <Typography sx={{ pl: 4, pr: 4, mb: 2 }}>
+                      <strong>Description:</strong> {selectedEvent.description}
+                    </Typography>
+                  </>
+                )}
+              </Box>
+            </Modal>
           </>
         ) : (
           <div style={{ textAlign: 'center', marginTop: '20px' }}>
