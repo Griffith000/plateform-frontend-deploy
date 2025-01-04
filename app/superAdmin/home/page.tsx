@@ -35,36 +35,7 @@ export default function Page() {
   return (
     <Layout>
       <div style={{ padding: '16px' }}>
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-            gap: '16px'
-          }}
-        >
-          {assignments.map(assignment => (
-            <div
-              key={assignment._id}
-              style={{
-                border: '1px solid #ccc',
-                borderRadius: '8px',
-                padding: '16px',
-                backgroundColor: '#f9f9f9',
-                textAlign: 'center'
-              }}
-            >
-              <h2 style={{ fontSize: '1.5rem', marginBottom: '8px' }}>
-                {assignment.Title}
-              </h2>
-              <p style={{ fontSize: '0.9rem', color: '#555' }}>
-                Due Date: {assignment.DueDate}
-              </p>
-              <p style={{ fontSize: '1rem', marginTop: '8px' }}>
-                {assignment.Description}
-              </p>
-            </div>
-          ))}
-        </div>
+        <h2>Assignments</h2>
       </div>
     </Layout>
   )
