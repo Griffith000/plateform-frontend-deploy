@@ -15,8 +15,10 @@ import Layout from '@/mic-component/Admin_UI/Layout/Layout'
 export default function Page() {
   const assignments = useAssignmentStore(state => state.assignments)
   const fetchAssignments = useAssignmentStore(state => state.fetchAssignments)
-  const searchParams = useSearchParams()
-  const id_dep = searchParams.get('id_dep')
+  // const searchParams = useSearchParams()
+  // const id_dep = searchParams.get('id_dep')
+
+  const id_dep = '670792e3ee0e13424434d371'
 
   const [currentPage, setCurrentPage] = useState(1)
   const itemsPerPage = 5
