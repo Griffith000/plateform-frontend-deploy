@@ -26,6 +26,7 @@ export default function Page() {
   }, 1000)
   useEffect(() => {
     loadAssignments()
+
   }, [])
 
   // Calculer les assignments à afficher pour la page actuelle
@@ -41,7 +42,9 @@ export default function Page() {
 
   return (
     <Layout>
-      <div className='container mx-auto mt-32'>
+      <p> bonjour</p>
+      <p> assignments {assignments?.length} </p>
+      {/* <div className='container mx-auto mt-32'>
         <div className='grid grid-cols-4 gap-4 px-10'>
           <div className='col-span-3'>
             {currentAssignments.length > 0 ? (
@@ -80,7 +83,7 @@ export default function Page() {
             />
           </div>
         </div>
-      </div>
+      </div> */}
     </Layout>
   )
 }
