@@ -17,13 +17,14 @@ export default function Page() {
     state => state.assignments
   )
 
-  const loadAssignments = async () => {
-    await fetchAssignments(id_dep)
-  }
   useEffect(() => {
-    loadAssignments()
+    const loadAssignments = async (departmentId: string) => {
+      await fetchAssignments(departmentId)
+    }
+    if (id_dep) {
+      loadAssignments(id_dep)
+    }
   }, [])
-
   return (
     <Layout>
       <div style={{ marginTop: '20px', padding: '10px' }}>
