@@ -43,7 +43,6 @@ export default function Page() {
   return (
     <Layout>
       <p> bonjour</p>
-      <p> assignments {assignments?.length} </p>
       {/* <div className='container mx-auto mt-32'>
         <div className='grid grid-cols-4 gap-4 px-10'>
           <div className='col-span-3'>
@@ -59,7 +58,6 @@ export default function Page() {
                       Attachments: null
                     }}
                   />
-                  {/* Pagination */}
                 </Grid>
               ))
             ) : (
