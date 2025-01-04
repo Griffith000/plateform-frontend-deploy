@@ -21,12 +21,12 @@ export default function Page() {
   const [currentPage, setCurrentPage] = useState(1)
   const itemsPerPage = 5
 
-  const loadAssignments = throttle(async () => {
-    await fetchAssignments(id_dep)
-  }, 1000)
   useEffect(() => {
-    loadAssignments()
+    const loadAssignments = throttle(async () => {
+      await fetchAssignments(id_dep)
+    }, 1000)
 
+    loadAssignments()
   }, [])
 
   // Calculer les assignments à afficher pour la page actuelle
@@ -43,13 +43,18 @@ export default function Page() {
   return (
     <Layout>
       <p> bonjour</p>
-      {/* <div className='container mx-auto mt-32'>
+      <div className='container mx-auto mt-32'>
         <div className='grid grid-cols-4 gap-4 px-10'>
           <div className='col-span-3'>
             {currentAssignments.length > 0 ? (
               currentAssignments.map(assignment => (
                 <Grid item xs={12} key={assignment._id}>
-                  <AssignmentCard
+                  <div>
+                    <p>{assignment.Title}</p>
+                    <p>{assignment.DueDate}</p>
+                    <p>{assignment.Description}</p>
+                  </div>
+                  {/* <AssignmentCard
                     assignment={{
                       _id: assignment._id,
                       Title: assignment.Title,
@@ -57,7 +62,7 @@ export default function Page() {
                       description: assignment.Description,
                       Attachments: null
                     }}
-                  />
+                  /> */}
                 </Grid>
               ))
             ) : (
@@ -81,7 +86,7 @@ export default function Page() {
             />
           </div>
         </div>
-      </div> */}
+      </div>
     </Layout>
   )
 }
