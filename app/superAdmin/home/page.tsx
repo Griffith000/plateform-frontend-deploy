@@ -1,17 +1,14 @@
 'use client'
-import React, { useEffect, useState } from 'react'
-import Grid from '@mui/material/Grid2'
-import { useAssignmentStore } from '@/app/store/MyStore/AssignmentsStore'
-import Empty from '@/mic-component/lottie_animation/Empty'
 
-import Layout from '@/mic-component/Admin_UI/Layout/Layout'
+import React from 'react'
+import Grid from '@mui/material/Grid2'
+import { Typography } from '@mui/material'
 
 export type Assignment = {
   _id: string
   Title: string
   Description: string
   DueDate: string
-  Attachments: string
 }
 
 export const assignments: Assignment[] = [
@@ -19,60 +16,45 @@ export const assignments: Assignment[] = [
     _id: '1',
     Title: 'Math Homework',
     Description: 'Complete exercises 1 to 10 from chapter 3.',
-    DueDate: '2025-01-15',
-    Attachments: 'math_homework.pdf'
+    DueDate: '2025-01-15'
   },
   {
     _id: '2',
     Title: 'Science Project',
     Description: 'Prepare a presentation on the solar system.',
-    DueDate: '2025-01-20',
-    Attachments: 'science_project.zip'
+    DueDate: '2025-01-20'
   },
   {
     _id: '3',
     Title: 'History Essay',
     Description: 'Write an essay on the Industrial Revolution.',
-    DueDate: '2025-01-18',
-    Attachments: 'history_essay.docx'
-  },
-  {
-    _id: '4',
-    Title: 'English Literature Analysis',
-    Description: "Analyze the themes in 'To Kill a Mockingbird'.",
-    DueDate: '2025-01-22',
-    Attachments: 'literature_analysis.docx'
-  },
-  {
-    _id: '5',
-    Title: 'Physics Lab Report',
-    Description: "Submit the lab report on Newton's Laws of Motion.",
-    DueDate: '2025-01-25',
-    Attachments: 'physics_lab_report.pdf'
+    DueDate: '2025-01-18'
   }
 ]
 
 export default function Page() {
   return (
-    <Layout>
-      <div>
-        {assignments.length > 0 ? (
-          assignments.map((assignment, index) => (
-            <Grid key={assignment._id || index}>
-              <div>
-                <p>{assignment.Title}</p>
-                <p>{assignment.DueDate}</p>
-                <p>{assignment.Description}</p>
-              </div>
-            </Grid>
-          ))
-        ) : (
-          <div>
-            <Empty />
-            <h3>No Assignments Found</h3>
-          </div>
-        )}
-      </div>
-    </Layout>
+    <div style={{ padding: '16px' }}>
+      <Grid container spacing={2}>
+        {assignments.map(assignment => (
+          <Grid xs={12} sm={6} md={4} key={assignment._id}>
+            <div
+              style={{
+                border: '1px solid #ccc',
+                borderRadius: '8px',
+                padding: '16px',
+                textAlign: 'center'
+              }}
+            >
+              <Typography variant='h6'>{assignment.Title}</Typography>
+              <Typography variant='body2' color='textSecondary'>
+                Due Date: {assignment.DueDate}
+              </Typography>
+              <Typography variant='body1'>{assignment.Description}</Typography>
+            </div>
+          </Grid>
+        ))}
+      </Grid>
+    </div>
   )
 }
