@@ -3,6 +3,7 @@
 import React from 'react'
 import Grid from '@mui/material/Grid2'
 import { Typography } from '@mui/material'
+import Layout from '@/mic-component/Admin_UI/Layout/Layout'
 
 export type Assignment = {
   _id: string
@@ -34,27 +35,31 @@ export const assignments: Assignment[] = [
 
 export default function Page() {
   return (
-    <div style={{ padding: '16px' }}>
-      <Grid container spacing={2}>
-        {assignments.map(assignment => (
-          <Grid xs={12} sm={6} md={4} key={assignment._id}>
-            <div
-              style={{
-                border: '1px solid #ccc',
-                borderRadius: '8px',
-                padding: '16px',
-                textAlign: 'center'
-              }}
-            >
-              <Typography variant='h6'>{assignment.Title}</Typography>
-              <Typography variant='body2' color='textSecondary'>
-                Due Date: {assignment.DueDate}
-              </Typography>
-              <Typography variant='body1'>{assignment.Description}</Typography>
-            </div>
-          </Grid>
-        ))}
-      </Grid>
-    </div>
+    <Layout>
+      <div style={{ padding: '16px' }}>
+        <Grid container spacing={2}>
+          {assignments.map(assignment => (
+            <Grid key={assignment._id}>
+              <div
+                style={{
+                  border: '1px solid #ccc',
+                  borderRadius: '8px',
+                  padding: '16px',
+                  textAlign: 'center'
+                }}
+              >
+                <Typography variant='h6'>{assignment.Title}</Typography>
+                <Typography variant='body2' color='textSecondary'>
+                  Due Date: {assignment.DueDate}
+                </Typography>
+                <Typography variant='body1'>
+                  {assignment.Description}
+                </Typography>
+              </div>
+            </Grid>
+          ))}
+        </Grid>
+      </div>
+    </Layout>
   )
 }
