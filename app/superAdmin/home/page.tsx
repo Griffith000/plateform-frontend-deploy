@@ -3,9 +3,14 @@
 import Layout from '@/mic-component/Admin_UI/Layout/Layout'
 import React from 'react'
 
+import { useAssignmentStore } from '@/store/MyStore/AssignmentsStore'
 import { Assignment } from '@/store/Models/Assignment'
+import Empty from '@/mic-component/lottie_animation/Empty'
 
 export default function Page() {
+  const id_dep = '670792e3ee0e13424434d371'
+  const fetchAssignments = useAssignmentStore(state => state.fetchAssignments)
+
   // const assignments: Assignment[] = useAssignmentStore(
   //   state => state.assignments
   // )
@@ -61,7 +66,11 @@ export default function Page() {
     <Layout>
       <div style={{ marginTop: '20px', padding: '10px' }}>
         {assignments.length > 0 ? (
-          <div> bonjour </div>
+          assignments.map(assignment => (
+            <div key={assignment._id}>
+              <div>{assignment.Title}</div>
+            </div>
+          ))
         ) : (
           <div>
             <h3>No Assignments Found</h3>
