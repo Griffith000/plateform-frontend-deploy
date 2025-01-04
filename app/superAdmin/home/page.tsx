@@ -9,6 +9,7 @@ import { parse } from 'date-fns'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import { Box, Modal, Typography } from '@mui/material'
 import { useSessionsStore } from '@/store/MyStore/SessionsStore'
+import { useSearchParams } from 'next/navigation'
 
 export type Session = {
   _id: string
@@ -22,7 +23,10 @@ export type Session = {
 }
 
 export default function Page() {
-  const departmentId = '670792e3ee0e13424434d371'
+  
+  const searchParams = useSearchParams()
+  const departmentId = searchParams.get('id_dep')
+ // const departmentId = '670792e3ee0e13424434d371'
   const fetchSessions = useSessionsStore(state => state.fetchSessions)
   const sessions: Session[] = useSessionsStore(state => state.sessions)
   const [selectedEvent, setSelectedEvent] = useState<any>(null)
