@@ -44,6 +44,7 @@ export default function Page() {
           ))
         ) : (
           <div>
+            <Empty />
             <h3>No Assignments Found</h3>
           </div>
         )}
