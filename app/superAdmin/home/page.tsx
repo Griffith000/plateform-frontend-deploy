@@ -1,8 +1,6 @@
 'use client'
 
 import React from 'react'
-import Grid from '@mui/material/Grid2'
-import { Typography } from '@mui/material'
 import Layout from '@/mic-component/Admin_UI/Layout/Layout'
 
 export type Assignment = {
@@ -37,15 +35,36 @@ export default function Page() {
   return (
     <Layout>
       <div style={{ padding: '16px' }}>
-        {assignments.map(assignment => (
-          <div key={assignment._id}>
-            <Typography variant='h6'>{assignment.Title}</Typography>
-            <Typography variant='body2' color='textSecondary'>
-              Due Date: {assignment.DueDate}
-            </Typography>
-            <Typography variant='body1'>{assignment.Description}</Typography>
-          </div>
-        ))}
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+            gap: '16px'
+          }}
+        >
+          {assignments.map(assignment => (
+            <div
+              key={assignment._id}
+              style={{
+                border: '1px solid #ccc',
+                borderRadius: '8px',
+                padding: '16px',
+                backgroundColor: '#f9f9f9',
+                textAlign: 'center'
+              }}
+            >
+              <h2 style={{ fontSize: '1.5rem', marginBottom: '8px' }}>
+                {assignment.Title}
+              </h2>
+              <p style={{ fontSize: '0.9rem', color: '#555' }}>
+                Due Date: {assignment.DueDate}
+              </p>
+              <p style={{ fontSize: '1rem', marginTop: '8px' }}>
+                {assignment.Description}
+              </p>
+            </div>
+          ))}
+        </div>
       </div>
     </Layout>
   )
