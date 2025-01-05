@@ -16,7 +16,7 @@ import MarkEmailReadIcon from '@mui/icons-material/MarkEmailRead'
 import BorderColorIcon from '@mui/icons-material/BorderColor'
 import DoneAllIcon from '@mui/icons-material/DoneAll'
 import { useSearchParams } from 'next/navigation'
-import Empty from '@/mic-component/lottie_animation/Empty'
+//import Empty from '@/mic-component/lottie_animation/Empty'
 import ResponseStatusSelect from '@/mic-component/Instructor_UI/ResponseStatusSelect/ResponseStatusSelect'
 import { toast } from 'react-hot-toast'
 
@@ -59,7 +59,7 @@ export default function Page() {
   if (!responses || responses.length === 0) {
     return (
       <div>
-        <Empty />
+        {/* <Empty /> */}
         <Typography variant='h5' className='mb-4 text-center font-mono'>
           No responses available
         </Typography>
