@@ -16,17 +16,10 @@ export default function Navbar() {
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  // const getUserInitials = () => {
-  //   if (user.nomPrenom) {
-  //     const [firstName, lastName] = user.nomPrenom.split(' ')
-  //     return `${firstName.charAt(0)}${lastName.charAt(0)}`
-  //   }
-  //   return ''
-  // }
+
   const handleLogOut = async () => {
     try {
       await logout()
-      // window.location.href = '/'
     } catch (error) {
       console.error('Logout failed:', error)
     }
@@ -64,9 +57,9 @@ export default function Navbar() {
           >
             <span className='sr-only'>Open user menu</span>
 
-            {/* <div className='flex h-10 w-10 items-center justify-center rounded-full bg-gray-500 text-lg text-white'>
-              {user.nomPrenom ? getUserInitials() : ''}
-            </div> */}
+            <div className='flex h-10 w-10 items-center justify-center rounded-full bg-gray-500 text-lg text-white'>
+              {user.nomPrenom}
+            </div>
           </button>
 
           {/* Dropdown Menu */}
