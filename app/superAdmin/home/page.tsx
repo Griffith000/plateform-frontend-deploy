@@ -1,7 +1,7 @@
 'use client'
 import Layout from '@/mic-component/Admin_UI/Layout/Layout'
 
-export default function AddUserForm() {
+export default function Page() {
   return (
     <Layout>
       <div>
