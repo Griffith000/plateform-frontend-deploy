@@ -56,7 +56,6 @@ export default function Navbar() {
             onClick={() => setIsDropdownOpen(!isDropdownOpen)} // Toggle dropdown on click
           >
             <span className='sr-only'>Open user menu</span>
-
             <div className='flex h-10 w-10 items-center justify-center rounded-full bg-gray-500 text-lg text-white'>
               {user.nomPrenom}
             </div>
