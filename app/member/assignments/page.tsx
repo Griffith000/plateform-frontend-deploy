@@ -9,6 +9,7 @@ import PaginationComponent from '@/mic-component/PaginationComponent/PaginationC
 import Accordion from '@/mic-component/InstructorAccordion/Accordion'
 import throttle from 'lodash.throttle'
 import { useAuthStore } from '@/store/MyStore/AuthStore'
+import useMediaQuery from '@mui/material/useMediaQuery'
 
 export default function Page() {
   const assignments = useAssignmentStore(state => state.assignments)
@@ -36,6 +37,7 @@ export default function Page() {
   const handlePageChange = newPage => {
     setCurrentPage(newPage)
   }
+  const isMobile = useMediaQuery('(max-width:600px)')
 
   return (
     <div className='container mx-auto mt-32'>
