@@ -16,12 +16,12 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { useRouter } from 'next/navigation'
 import { useAuthStore } from '@/store/MyStore/AuthStore'
-
+import { Eye, EyeOff } from 'lucide-react'
 export default function LoginForm() {
   const login = useAuthStore(state => state.login)
   const router = useRouter()
   const [loading, setLoading] = useState(false)
-
+  const [showPassword, setShowPassword] = useState(false)
   const formSchema = z.object({
     email: z
       .string()
@@ -97,19 +97,34 @@ export default function LoginForm() {
             <FormField
               control={form.control}
               name='password'
-              render={({ field }) => (
-                <FormItem className='mb-6'>
-                  <FormLabel>Password</FormLabel>
-                  <FormControl>
-                    <Input
-                      type='password'
-                      placeholder='Enter your password'
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage className='text-red-800' />
-                </FormItem>
-              )}
+              render={({ field }) => {
+                return (
+                  <FormItem className='relative mb-6'>
+                    <FormLabel>Password</FormLabel>
+                    <FormControl>
+                      <div className='relative'>
+                        <Input
+                          type={showPassword ? 'text' : 'password'}
+                          placeholder='Enter your password'
+                          {...field}
+                        />
+                        <button
+                          type='button'
+                          className='absolute inset-y-0 right-0 flex items-center pr-3'
+                          onClick={() => setShowPassword(!showPassword)}
+                        >
+                          {showPassword ? (
+                            <EyeOff className='h-5 w-5 text-gray-500' />
+                          ) : (
+                            <Eye className='h-5 w-5 text-gray-500' />
+                          )}
+                        </button>
+                      </div>
+                    </FormControl>
+                    <FormMessage className='text-red-800' />
+                  </FormItem>
+                )
+              }}
             />
             {/* <FormField
               control={form.control}
