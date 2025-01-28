@@ -57,7 +57,7 @@ export default function Navbar() {
           >
             <span className='sr-only'>Open user menu</span>
             <div className='flex h-10 w-10 items-center justify-center rounded-full bg-gray-500 text-lg text-white'>
-              {user.nomPrenom}
+              {user.nomPrenom[0]}
             </div>
           </button>
 

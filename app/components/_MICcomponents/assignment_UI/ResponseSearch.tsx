@@ -9,7 +9,8 @@ import {
   Card,
   TextField,
   IconButton,
-  Stack
+  Stack,
+  useMediaQuery
 } from '@mui/material'
 import { useResponseStore } from '@/store/MyStore/ResponseStore'
 import { useAuthStore } from '@/store/MyStore/AuthStore'
@@ -59,6 +60,7 @@ const ResponseSearch = ({ Assignment_Id, placeholder }) => {
       .url('Response content must be a valid URL')
       .nonempty('Response content cannot be empty')
   })
+  const isMobile = useMediaQuery('(max-width:600px)')
   const {
     register,
     handleSubmit,
@@ -81,7 +83,7 @@ const ResponseSearch = ({ Assignment_Id, placeholder }) => {
 
   return (
     <div className='flex w-full flex-col items-center justify-center'>
-      {fetchedResponse && (
+      {fetchedResponse && !isMobile && (
         <Card
           className='w-full rounded-md bg-gray-100'
           elevation={0}
@@ -161,6 +163,93 @@ const ResponseSearch = ({ Assignment_Id, placeholder }) => {
                 </Grid>
               </Grid>
             </Grid>
+          </CardContent>
+        </Card>
+      )}
+      {fetchedResponse && isMobile && (
+        <Card
+          className='rounded-md bg-gray-50 p-4 shadow-sm'
+          elevation={0}
+          style={{ width: '100%' }}
+        >
+          <CardContent>
+            <Stack spacing={2}>
+              {/* Contenu principal */}
+              {!isEditing ? (
+                <Stack spacing={1}>
+                  <Typography
+                    variant='h6'
+                    className='overflow-hidden text-ellipsis whitespace-nowrap text-start font-bold'
+                  >
+                    {fetchedResponse.Content}
+                  </Typography>
+                  <Typography variant='body2' className='text-gray-500'>
+                    {new Date(fetchedResponse.createdAt).toLocaleString()}
+                  </Typography>
+                </Stack>
+              ) : (
+                <TextField
+                  fullWidth
+                  multiline
+                  value={editedContent}
+                  onChange={e => setEditedContent(e.target.value)}
+                  placeholder='Edit content...'
+                />
+              )}
+
+              {/* Statut */}
+              <Button
+                variant='outlined'
+                color={
+                  fetchedResponse.status === 'APPROVED'
+                    ? 'success'
+                    : fetchedResponse.status === 'AWAITING FOR REVIEW'
+                      ? 'error'
+                      : 'warning'
+                }
+                style={{ width: '100%' }}
+              >
+                {fetchedResponse.status}
+              </Button>
+
+              {/* Actions */}
+              <Stack direction='row' spacing={2} justifyContent='center'>
+                {isEditing ? (
+                  <>
+                    {/* Bouton "Save" */}
+                    <Button
+                      variant='contained'
+                      color='primary'
+                      onClick={handleSave}
+                      style={{ flex: 1 }}
+                    >
+                      Save
+                    </Button>
+                    {/* Bouton "Cancel" */}
+                    <Button
+                      variant='outlined'
+                      color='secondary'
+                      onClick={() => {
+                        setEditedContent(fetchedResponse.Content) // Réinitialise le contenu
+                        setIsEditing(false) // Sort du mode édition
+                      }}
+                      style={{ flex: 1 }}
+                    >
+                      Cancel
+                    </Button>
+                  </>
+                ) : (
+                  <Button
+                    variant='outlined'
+                    startIcon={<BorderColorIcon />}
+                    onClick={handleEdit}
+                    style={{ flex: 1 }}
+                  >
+                    Edit
+                  </Button>
+                )}
+              </Stack>
+            </Stack>
           </CardContent>
         </Card>
       )}

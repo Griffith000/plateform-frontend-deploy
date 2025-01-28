@@ -102,6 +102,7 @@ export default function Page() {
         >
           <Button
             variant='contained'
+            className='rounded-md bg-gradient-to-r from-secondary to-primary text-white'
             startIcon={<AddCircleOutlineIcon />}
             onClick={() =>
               router.push(
@@ -112,19 +113,19 @@ export default function Page() {
             Add New Assignment
           </Button>
           {currentAssignments.length > 0 ? (
-            // currentAssignments.map(assignment => (
-            //   <AssignmentCardForInstructor
-            //     key={assignment._id}
-            //     assignment={assignment}
-            //     onEdit={() => handleEditAssignment(assignment._id)}
-            //     onDelete={() => handleDeleteAssignment(assignment._id)}
-            //     onOpenAssignmentModal={() => {
-            //       setSelectedAssignment(assignment)
-            //       setOpenAssignmentModal(true)
-            //     }}
-            //   />
-            // ))
-            <div> AssignmentCardForInstructor </div>
+            currentAssignments.map(assignment => (
+              <AssignmentCardForInstructor
+                key={assignment._id}
+                assignment={assignment}
+                onEdit={() => {
+                  router.push(
+                    `/instructor/create?assignmentId=${assignment._id}`
+                  )
+                }}
+                onDelete={() => handleDeleteAssignment(assignment._id)}
+                
+              />
+            ))
           ) : (
             <Typography>No assignments available</Typography>
           )}

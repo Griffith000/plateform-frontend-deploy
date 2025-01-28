@@ -1,6 +1,5 @@
 'use client'
 import React, { useEffect, useState } from 'react'
-
 import { Button, Grid, Typography } from '@mui/material'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useAssignmentStore } from '@/app/store/MyStore/AssignmentsStore'
@@ -23,11 +22,11 @@ export default function Page() {
   const loadAssignments = throttle(async () => {
     await fetchAssignments(id_dep)
   }, 1000)
+
   useEffect(() => {
     loadAssignments()
   }, [])
 
-  // Calculer les assignments à afficher pour la page actuelle
   const indexOfLastItem = currentPage * itemsPerPage
   const indexOfFirstItem = indexOfLastItem - itemsPerPage
   const currentAssignments = assignments
@@ -37,12 +36,13 @@ export default function Page() {
   const handlePageChange = newPage => {
     setCurrentPage(newPage)
   }
+
   const isMobile = useMediaQuery('(max-width:600px)')
 
   return (
-    <div className='container mx-auto mt-32'>
-      <div className='grid grid-cols-4 gap-4 px-10'>
-        <div className='col-span-3'>
+    <div className='container mx-auto mt-10 p-4'>
+      <Grid container spacing={isMobile ? 2 : 4}>
+        <Grid item xs={12} md={9}>
           {currentAssignments.length > 0 ? (
             currentAssignments.map(assignment => (
               <Grid item xs={12} key={assignment._id}>
@@ -55,29 +55,32 @@ export default function Page() {
                     Attachments: null
                   }}
                 />
-                {/* Pagination */}
               </Grid>
             ))
           ) : (
             <div className='flex h-full flex-col items-center justify-center'>
-              <h3 className='mb-4 mt-4 font-mono text-xl'>
+              <Typography variant='h6' className='mt-4'>
                 No Assignments Found
-              </h3>
+              </Typography>
             </div>
           )}
-        </div>
-        <div className='col-span-1'>
+        </Grid>
+
+        {/* Sidebar Accordion */}
+        <Grid item xs={12} md={3}>
           <Accordion />
-        </div>
-        <div className='col-start-1 col-end-4 mb-5 mt-5 self-center justify-self-center'>
+        </Grid>
+
+        {/* Pagination */}
+        <Grid item xs={12} className='mt-4 flex justify-center'>
           <PaginationComponent
             currentPage={currentPage}
             totalItems={assignments ? assignments.length : 0}
             itemsPerPage={itemsPerPage}
             onPageChange={handlePageChange}
           />
-        </div>
-      </div>
+        </Grid>
+      </Grid>
     </div>
   )
 }
