@@ -117,13 +117,6 @@ export default function Page() {
               <AssignmentCardForInstructor
                 key={assignment._id}
                 assignment={assignment}
-                onEdit={() => {
-                  router.push(
-                    `/instructor/create?assignmentId=${assignment._id}`
-                  )
-                }}
-                onDelete={() => handleDeleteAssignment(assignment._id)}
-                
               />
             ))
           ) : (
