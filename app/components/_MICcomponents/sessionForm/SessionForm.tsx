@@ -88,17 +88,19 @@ export default function SessionForm({
       if (editingSession) {
         const editedData: Session = {
           _id: editingSession._id,
-          InstructorId: editingSession.Instructor,
+          InstructorId: values.Instructor,
           Title: values.Title,
           Description: values.Description,
           Room: values.Room,
           Date: formattedDate,
-          Instructor: editingSession.Instructor,
+          Instructor: values.Instructor,
           createdAt: editingSession.createdAt
         }
 
         await updateSession(editingSession._id, editedData)
 
+        console.log('updatedData : ')
+        console.log(editedData)
         toast.success('Session updated successfully')
       } else {
         const updatedData: Session = {
@@ -111,6 +113,7 @@ export default function SessionForm({
           Date: formattedDate,
           InstructorId: values.Instructor
         }
+
         await addSession(updatedData, user.DepartmentId)
 
         toast.success('Session added successfully')
@@ -138,17 +141,17 @@ export default function SessionForm({
         Create / Edit a session
       </div>
 
-      <div className='w-full max-w-2xl rounded-lg bg-white pb-3 pl-3 pr-3 shadow-md'>
+      <div className='w-full max-w-2xl rounded-lg bg-white px-3 pb-3 shadow-md'>
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className='grid grid-cols-1 gap-6 p-2'
+            className='flex flex-col gap-6 p-4'
           >
             <FormField
               control={form.control}
               name='Title'
               render={({ field }) => (
-                <FormItem className='col-span-2'>
+                <FormItem>
                   <FormLabel>Title</FormLabel>
                   <FormControl>
                     <Input placeholder='Enter title' {...field} />
@@ -163,7 +166,7 @@ export default function SessionForm({
               control={form.control}
               name='Description'
               render={({ field }) => (
-                <FormItem className='col-span-2'>
+                <FormItem>
                   <FormLabel>Description</FormLabel>
                   <FormControl>
                     <Input placeholder='Enter description' {...field} />
@@ -178,15 +181,14 @@ export default function SessionForm({
               control={form.control}
               name='Date'
               render={({ field }) => (
-                <FormItem className='flex flex-col items-start'>
+                <FormItem>
                   <FormLabel>DateTime</FormLabel>
-
                   <Popover>
                     <PopoverTrigger asChild>
                       <Button
                         variant={'outline'}
                         className={cn(
-                          'w-[280px] justify-start text-left font-normal',
+                          'w-full justify-start text-left font-normal',
                           !field.value && 'text-muted-foreground'
                         )}
                       >
@@ -222,7 +224,7 @@ export default function SessionForm({
               control={form.control}
               name='Room'
               render={({ field }) => (
-                <FormItem className='col-span-2'>
+                <FormItem>
                   <FormLabel>Room</FormLabel>
                   <FormControl>
                     <Input placeholder='Enter room' {...field} />
@@ -237,7 +239,7 @@ export default function SessionForm({
               control={form.control}
               name='Instructor'
               render={({ field }) => (
-                <FormItem className='col-span-2'>
+                <FormItem>
                   <FormLabel>Instructor</FormLabel>
                   <FormControl>
                     <InstructorSelect
@@ -246,7 +248,6 @@ export default function SessionForm({
                       }}
                       defaultInstructorName={editingSession?.Instructor}
                     />
-                    {/*<DepartmentSelect form={{ form }} />*/}
                   </FormControl>
                   <FormMessage>
                     {form.formState.errors.Instructor?.message}
@@ -254,7 +255,7 @@ export default function SessionForm({
                 </FormItem>
               )}
             />
-            <div className='col-span-2'>
+            <div>
               <Button
                 type='submit'
                 className='h-12 w-full rounded-md bg-gradient-to-r from-secondary to-primary text-white'
