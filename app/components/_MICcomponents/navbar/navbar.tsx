@@ -178,7 +178,7 @@ export default function Navbar() {
                 ''
               )}
             </li>
-            <li>
+            {/* <li>
               {user.role === 'instructor' ? (
                 <Link
                   href='/instructor/chats'
@@ -189,7 +189,7 @@ export default function Navbar() {
               ) : (
                 ''
               )}
-            </li>
+            </li> */}
           </ul>
         </div>
       </div>

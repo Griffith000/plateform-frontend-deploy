@@ -8,14 +8,10 @@ import { toast } from 'react-hot-toast'
 import { useAssignmentStore } from '@/store/MyStore/AssignmentsStore'
 import DeleteAssignmentModal from '@/mic-component/Instructor_UI/AssignmentDeleteModalForInstructor/AssignmentDeleteModalForInstructor'
 import { useAuthStore } from '@/store/MyStore/AuthStore'
+import { Assignment } from '@/store/Models/Assignment'
 
 interface AssignmentCardProps {
-  assignment: {
-    _id: string
-    Title: string
-    DueDate: string
-    Description: string
-  }
+  assignment: Assignment
 }
 
 export default function AssignmentCardForInstructor({
