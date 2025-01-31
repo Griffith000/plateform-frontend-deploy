@@ -23,7 +23,7 @@ import PaginationComponent from '@/mic-component/PaginationComponent/PaginationC
 import SessionForm from '@/mic-component/sessionForm/SessionForm'
 import EnhancedTable from '@/mic-component/Admin_UI/TableComponent/TableComponent'
 
-export default function  Page ()   {
+export default function Page() {
   const sessions = useSessionsStore(state => state.sessions)
   const fetchSessions = useSessionsStore(state => state.fetchSessions)
   const user = useAuthStore(state => state.user)
@@ -56,6 +56,9 @@ export default function  Page ()   {
     if (session) {
       setEditingSession(session)
       setOpenDialog(true)
+    } else {
+      setEditingSession(null)
+      setOpenDialog(true)
     }
   }
 
@@ -67,7 +70,6 @@ export default function  Page ()   {
   const handleDeleteSession = async (id: string) => {
     try {
       await deleteSession(id)
-      toast.success('Session deleted successfully')
     } catch (error) {
       toast.error('Failed to delete session')
     }
@@ -107,9 +109,12 @@ export default function  Page ()   {
               marginRight: 1
             }}
           >
-            <Button variant='contained'>filter 1</Button>
-            <Button variant='contained'>filter 2</Button>
-            <Button variant='contained' startIcon={<AddCircleOutlineIcon />}>
+            <Button
+              className='h-12 w-full rounded-md bg-gradient-to-r from-secondary to-primary text-white'
+              variant='contained'
+              startIcon={<AddCircleOutlineIcon />}
+              onClick={() => handleEditSession('mobileAdd')}
+            >
               Add new Session
             </Button>
           </Box>
@@ -139,19 +144,11 @@ export default function  Page ()   {
           {/* TODO:  BY GHASSEN*/}
 
           <Dialog open={openDialog} onClose={handleCloseDialog}>
-            <DialogTitle>Edit Session</DialogTitle>
-            <DialogContent>
-              <SessionForm
-                editingSession={editingSession}
-                setEditingSession={setEditingSession}
-                onClose={handleCloseDialog} // Fermer le modal après modification
-              />
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={handleCloseDialog} color='primary'>
-                Cancel
-              </Button>
-            </DialogActions>
+            <SessionForm
+              editingSession={editingSession}
+              setEditingSession={setEditingSession}
+              onClose={handleCloseDialog} // Fermer le modal après modification
+            />
           </Dialog>
         </Box>
       ) : (
@@ -189,4 +186,3 @@ export default function  Page ()   {
     </>
   )
 }
-

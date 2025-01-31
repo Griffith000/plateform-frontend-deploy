@@ -61,7 +61,7 @@ const DeleteAssignmentModal: React.FC<DeleteAssignmentModalProps> = ({
               />
             </svg>
             <h3 className='mb-5 text-lg font-normal text-gray-500 dark:text-gray-400'>
-              Are you sure you want to delete this Assignment?
+              Are you sure you want to delete ?
             </h3>
             <button
               onClick={() => {
@@ -69,7 +69,7 @@ const DeleteAssignmentModal: React.FC<DeleteAssignmentModalProps> = ({
                 onClose()
               }}
               type='button'
-              className='inline-flex items-center rounded-lg bg-MIC px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-red-600 focus:outline-none focus:ring-4 focus:ring-red-300 transition-colors duration-130 delay-100'
+              className='duration-130 inline-flex items-center rounded-lg bg-MIC px-5 py-2.5 text-center text-sm font-medium text-white transition-colors delay-100 hover:bg-red-600 focus:outline-none focus:ring-4 focus:ring-red-300'
             >
               Yes, I am sure
             </button>

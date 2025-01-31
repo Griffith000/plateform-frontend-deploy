@@ -17,6 +17,8 @@ import Tooltip from '@mui/material/Tooltip'
 import { visuallyHidden } from '@mui/utils'
 import DeleteIcon from '@mui/icons-material/Delete'
 import FilterListIcon from '@mui/icons-material/FilterList'
+import DeleteAssignmentModal from '@/mic-component/Instructor_UI/AssignmentDeleteModalForInstructor/AssignmentDeleteModalForInstructor'
+import { toast } from 'react-hot-toast'
 
 interface Data {
   [key: string]: string | number | string[]
@@ -60,7 +62,20 @@ const EnhancedTable: React.FC<EnhancedTableProps> = ({
   >(null) // Single selection
   const [page, setPage] = React.useState(0)
   const [rowsPerPage, setRowsPerPage] = React.useState(defaultRowsPerPage)
+  const [openDeleteDialog, setOpenDeleteDialog] = React.useState(false)
 
+  const confirmDeleteAssignment = async () => {
+    if (selected) {
+      try {
+        onDelete(selected)
+        toast.success('deleted successfully')
+      } catch {
+        toast.error('Failed to delete')
+      } finally {
+        setOpenDeleteDialog(false)
+      }
+    }
+  }
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
       const newSelected = data.map(n => n.id as string)
@@ -126,7 +141,7 @@ const EnhancedTable: React.FC<EnhancedTableProps> = ({
           )}
           {selected ? (
             <Tooltip title='Supprimer'>
-              <IconButton onClick={() => onDelete(selected)}>
+              <IconButton onClick={() => setOpenDeleteDialog(true)}>
                 <DeleteIcon />
               </IconButton>
             </Tooltip>
@@ -228,6 +243,13 @@ const EnhancedTable: React.FC<EnhancedTableProps> = ({
           }}
         />
       </Paper>
+      {openDeleteDialog && (
+        <DeleteAssignmentModal
+          isOpen={openDeleteDialog}
+          onClose={() => setOpenDeleteDialog(false)}
+          onConfirm={confirmDeleteAssignment}
+        />
+      )}
     </Box>
   )
 }

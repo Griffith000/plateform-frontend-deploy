@@ -11,7 +11,7 @@ import {
 import { ENDPOINTS } from '@/store/constants/api'
 import { useAuthStore } from '@/store/MyStore/AuthStore'
 
-const InstructorSelect = ({ form, defaultInstructorName }) => {
+const InstructorSelect = ({ form, defaultInstructorName, setValue }) => {
   const [instructors, setInstructors] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -32,7 +32,7 @@ const InstructorSelect = ({ form, defaultInstructorName }) => {
           instructor => instructor.NomPrenom == defaultInstructorName
         )
         if (matchingInstructor) {
-          form.setValue('Instructor', defaultInstructorName)
+          setValue('Instructor', defaultInstructorName)
         }
       }
 

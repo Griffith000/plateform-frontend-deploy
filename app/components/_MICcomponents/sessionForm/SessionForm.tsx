@@ -26,6 +26,7 @@ import InstructorSelect from '../Instructor_UI/InstructorSelect/InstructorSelect
 import { useAuthStore } from '@/app/store/MyStore/AuthStore'
 import { Session } from '@/store/Models/Session'
 import { toast } from 'react-hot-toast'
+import { useMediaQuery, useTheme } from '@mui/material'
 
 const sessionSchema = z.object({
   Title: z.string().nonempty({ message: 'Title is required' }),
@@ -53,6 +54,8 @@ export default function SessionForm({
     Instructor: z.string().nonempty({ message: 'Instructor is required' }),
     Date: z.date()
   })
+  const theme = useTheme()
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
 
   type FormSchemaType = z.infer<typeof sessionSchema>
 
@@ -115,7 +118,6 @@ export default function SessionForm({
         }
 
         await addSession(updatedData, user.DepartmentId)
-
         toast.success('Session added successfully')
       }
       form.reset({
@@ -126,7 +128,7 @@ export default function SessionForm({
         Instructor: ''
       })
       await fetchSessions(user.DepartmentId)
-
+      onClose()
       setEditingSession(null)
     } catch (error) {
       toast.error("Erreur lors de l'opération", { position: 'top-center' })
@@ -200,7 +202,7 @@ export default function SessionForm({
                         )}
                       </Button>
                     </PopoverTrigger>
-                    <PopoverContent className='w-auto bg-gray-100 p-0'>
+                    <PopoverContent className='z-[9999] w-auto bg-gray-100 p-0'>
                       <Calendar
                         mode='single'
                         selected={field.value}
@@ -247,6 +249,7 @@ export default function SessionForm({
                         form
                       }}
                       defaultInstructorName={editingSession?.Instructor}
+                      setValue={form.setValue}
                     />
                   </FormControl>
                   <FormMessage>
@@ -262,6 +265,15 @@ export default function SessionForm({
               >
                 {loading ? 'Loading...' : 'Submit'}
               </Button>
+              {isMobile && (
+                <Button
+                  className='mt-2 h-12 w-full rounded-md bg-gradient-to-r from-secondary to-primary text-white'
+                  onClick={onClose}
+                  color='primary'
+                >
+                  Cancel
+                </Button>
+              )}
             </div>
           </form>
         </Form>

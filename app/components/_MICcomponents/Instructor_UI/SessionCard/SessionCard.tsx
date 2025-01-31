@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {
   Card,
   CardContent,
@@ -12,6 +12,8 @@ import RoomIcon from '@mui/icons-material/Room'
 import AccessTimeIcon from '@mui/icons-material/AccessTime'
 import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Delete'
+import DeleteAssignmentModal from '@/mic-component/Instructor_UI/AssignmentDeleteModalForInstructor/AssignmentDeleteModalForInstructor'
+import { toast } from 'react-hot-toast'
 
 interface SessionCardProps {
   session: {
@@ -32,6 +34,19 @@ const SessionCard: React.FC<SessionCardProps> = ({
   onDelete,
   onEdit
 }) => {
+  const [openDeleteDialog, setOpenDeleteDialog] = useState(false)
+  const confirmDeleteAssignment = async () => {
+    if (session) {
+      try {
+        onDelete(session._id)
+        toast.success('Session deleted successfully')
+      } catch {
+        toast.error('Failed to delete Session')
+      } finally {
+        setOpenDeleteDialog(false)
+      }
+    }
+  }
   return (
     <Card sx={{ maxWidth: 600, margin: '20px auto', boxShadow: 3 }}>
       <CardContent>
@@ -68,9 +83,10 @@ const SessionCard: React.FC<SessionCardProps> = ({
 
         {/* Action Buttons */}
         <Box sx={{ mt: 3, display: 'flex', justifyContent: 'space-between' }}>
-          <Button variant='contained' color='primary'>
+          {/* <Button variant='contained' color='primary'>
             Participer
-          </Button>
+          </Button> */}
+          <div></div>
           <Box>
             {/* Edit Button */}
             <IconButton color='primary' onClick={() => onEdit(session._id)}>
@@ -78,12 +94,19 @@ const SessionCard: React.FC<SessionCardProps> = ({
             </IconButton>
 
             {/* Delete Button */}
-            <IconButton color='error' onClick={() => onDelete(session._id)}>
+            <IconButton color='error' onClick={() => setOpenDeleteDialog(true)}>
               <DeleteIcon />
             </IconButton>
           </Box>
         </Box>
       </CardContent>
+      {openDeleteDialog && (
+        <DeleteAssignmentModal
+          isOpen={openDeleteDialog}
+          onClose={() => setOpenDeleteDialog(false)}
+          onConfirm={confirmDeleteAssignment}
+        />
+      )}
     </Card>
   )
 }
