@@ -5,10 +5,11 @@ import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import { parse } from 'date-fns'
 import timeGridPlugin from '@fullcalendar/timegrid'
-import { Box, Modal, Typography } from '@mui/material'
+import { Box, Modal, Typography, useMediaQuery, useTheme } from '@mui/material'
 import { useSessionsStore } from '@/store/MyStore/SessionsStore'
 import { useSearchParams } from 'next/navigation'
 import { Session } from '@/store/Models/Session'
+import PaginationComponent from '@/mic-component/PaginationComponent/PaginationComponent'
 
 export default function Page() {
   const searchParams = useSearchParams()
@@ -17,6 +18,14 @@ export default function Page() {
   const fetchSessions = useSessionsStore(state => state.fetchSessions)
   const sessions: Session[] = useSessionsStore(state => state.sessions)
   const [selectedEvent, setSelectedEvent] = useState<any>(null)
+  const [currentPage, setCurrentPage] = useState(1)
+  const [itemsPerPage] = useState(1)
+  const handlePageChange = newPage => setCurrentPage(newPage)
+  const indexOfLastItem = currentPage * itemsPerPage
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage
+  const currentSessions = React.useMemo(() => {
+    return sessions ? sessions.slice(indexOfFirstItem, indexOfLastItem) : []
+  }, [sessions, indexOfFirstItem, indexOfLastItem])
   useEffect(() => {
     const loadSessions = async (departmentId: string) => {
       await fetchSessions(departmentId)
@@ -32,84 +41,139 @@ export default function Page() {
   const handleCloseModal = () => {
     setSelectedEvent(null)
   }
-
+  const theme = useTheme()
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
   return (
     <div>
-      <div style={{ marginTop: '20px', padding: '10px' }}>
+      <div style={{ marginTop: '80px', padding: '10px' }}>
         {sessions.length > 0 ? (
           <>
-            <FullCalendar
-              plugins={[dayGridPlugin, timeGridPlugin]}
-              initialView='dayGridMonth'
-              weekends={true}
-              headerToolbar={{
-                right: 'prev,next today',
-                center: 'title',
-                left: 'dayGridMonth,timeGridWeek,timeGridDay'
-              }}
-              events={sessions.map(session => ({
-                title: session.Title || 'Untitled Session',
-                start: parse(session.Date, 'dd/MM/yyyy HH:mm:ss', new Date()),
-                extendedProps: {
-                  id: session._id,
-                  title: session.Title || 'Untitled Session',
-                  instructor: session.Instructor || 'Unknown Instructor',
-                  room: session.Room || 'No Room Assigned',
-                  description: session.Description || 'No description available'
-                }
-              }))}
-              eventContent={eventInfo => renderEventContent(eventInfo)}
-              eventClick={handleEventClick}
-            />
-            <Modal
-              open={!!selectedEvent}
-              onClose={handleCloseModal}
-              aria-labelledby='event-modal-title'
-              aria-describedby='event-modal-description'
-            >
-              <Box
-                sx={{
-                  position: 'absolute',
-                  top: '50%',
-                  left: '50%',
-                  transform: 'translate(-50%, -50%)',
-                  width: 400,
-                  bgcolor: 'background.paper',
+            {!isMobile ? (
+              <>
+                <div
+                  className='relative rounded-lg bg-white p-2 shadow dark:bg-gray-700'
+                  style={{ width: '150vh', height: '145vh' }}
+                >
+                  <FullCalendar
+                    plugins={[dayGridPlugin, timeGridPlugin]}
+                    initialView='dayGridMonth'
+                    weekends={true}
+                    headerToolbar={{
+                      right: 'prev,next today',
+                      center: 'title',
+                      left: 'dayGridMonth,timeGridWeek,timeGridDay'
+                    }}
+                    events={sessions.map(session => ({
+                      title: session.Title || 'Untitled Session',
+                      start: parse(
+                        session.Date,
+                        'dd/MM/yyyy HH:mm:ss',
+                        new Date()
+                      ),
+                      extendedProps: {
+                        id: session._id,
+                        title: session.Title || 'Untitled Session',
+                        instructor: session.Instructor || 'Unknown Instructor',
+                        room: session.Room || 'No Room Assigned',
+                        description:
+                          session.Description || 'No description available'
+                      }
+                    }))}
+                    eventContent={eventInfo => renderEventContent(eventInfo)}
+                    eventClick={handleEventClick}
+                  />
+                  <Modal
+                    open={!!selectedEvent}
+                    onClose={handleCloseModal}
+                    aria-labelledby='event-modal-title'
+                    aria-describedby='event-modal-description'
+                  >
+                    <Box
+                      sx={{
+                        position: 'absolute',
+                        top: '50%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        width: 400,
+                        bgcolor: 'background.paper',
 
-                  boxShadow: 24,
+                        boxShadow: 24,
 
-                  borderRadius: 4
-                }}
-              >
-                {selectedEvent && (
+                        borderRadius: 4
+                      }}
+                    >
+                      {selectedEvent && (
+                        <>
+                          <Typography
+                            className='rounded-md bg-gradient-to-r from-secondary to-primary p-2 text-center text-white'
+                            id='event-modal-title'
+                            variant='h6'
+                            component='h2'
+                          >
+                            {selectedEvent.title || 'Untitled Session'}
+                          </Typography>
+                          <Typography
+                            id='event-modal-description'
+                            sx={{ pl: 4, pr: 4, mt: 2 }}
+                          >
+                            <strong>Instructor:</strong>{' '}
+                            {selectedEvent.instructor}
+                          </Typography>
+                          <Typography sx={{ pl: 4, pr: 4 }}>
+                            <strong>Room:</strong> {selectedEvent.room}
+                          </Typography>
+                          <Typography sx={{ pl: 4, pr: 4 }}>
+                            <strong>Duration :</strong> 2 hours
+                          </Typography>
+                          <Typography sx={{ pl: 4, pr: 4, mb: 2 }}>
+                            <strong>Description:</strong>{' '}
+                            {selectedEvent.description}
+                          </Typography>
+                        </>
+                      )}
+                    </Box>
+                  </Modal>
+                </div>
+              </>
+            ) : (
+              <div>
+                {currentSessions.map(session => (
                   <>
-                    <Typography
-                      className='rounded-md bg-gradient-to-r from-secondary to-primary p-2 text-center text-white'
-                      id='event-modal-title'
-                      variant='h6'
-                      component='h2'
-                    >
-                      {selectedEvent.title || 'Untitled Session'}
-                    </Typography>
-                    <Typography
-                      id='event-modal-description'
-                      sx={{ pl: 4, pr: 4, mt: 2 }}
-                    >
-                      <strong>Instructor:</strong> {selectedEvent.instructor}
-                    </Typography>
-                    <Typography sx={{ pl: 4, pr: 4 }}>
-                      <strong>Room:</strong> {selectedEvent.room}
-                    </Typography>
-                    <Typography sx={{ pl: 4, pr: 4 }}>
-                      <strong>Duration :</strong> 2 hours
-                    </Typography>
-                    <Typography sx={{ pl: 4, pr: 4, mb: 2 }}>
-                      <strong>Description:</strong> {selectedEvent.description}
-                    </Typography>
+                    <div className='relative rounded-lg bg-white shadow dark:bg-gray-700'>
+                      <Typography
+                        className='rounded-md bg-gradient-to-r from-secondary to-primary p-2 text-center text-white'
+                        id='event-modal-title'
+                        variant='h6'
+                        component='h2'
+                      >
+                        {session.Title || 'Untitled Session'}
+                      </Typography>
+                      <Typography
+                        id='event-modal-description'
+                        sx={{ pl: 4, pr: 4, mt: 2 }}
+                      >
+                        <strong>Instructor:</strong> {session.Instructor}
+                      </Typography>
+                      <Typography sx={{ pl: 4, pr: 4 }}>
+                        <strong>Room:</strong> {session.Room}
+                      </Typography>
+                      <Typography sx={{ pl: 4, pr: 4 }}>
+                        <strong>Duration :</strong> 2 hours
+                      </Typography>
+                      <Typography sx={{ pl: 4, pr: 4, mb: 2 }}>
+                        <strong>Description:</strong> {session.Description}
+                      </Typography>
+                    </div>
                   </>
-                )}
-              </Box>
-            </Modal>
+                ))}
+                <PaginationComponent
+                  currentPage={currentPage}
+                  totalItems={sessions ? sessions.length : 0}
+                  itemsPerPage={itemsPerPage}
+                  onPageChange={handlePageChange}
+                />
+              </div>
+            )}
           </>
         ) : (
           <div style={{ textAlign: 'center', marginTop: '20px' }}>
