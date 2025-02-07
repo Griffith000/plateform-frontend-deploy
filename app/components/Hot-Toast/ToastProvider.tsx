@@ -3,19 +3,19 @@ import { Toaster } from 'react-hot-toast'
 export default function ToasterProvider() {
   return (
     <Toaster
-      position='top-center'
+      position='bottom-right'
       reverseOrder={false}
       toastOptions={{
         success: {
           style: {
-            background: 'green',
-            color: 'white'
+            background: 'white',
+            color: 'green'
           }
         },
         error: {
           style: {
-            background: 'red',
-            color: 'white'
+            background: 'white',
+            color: 'red'
           }
         }
       }}

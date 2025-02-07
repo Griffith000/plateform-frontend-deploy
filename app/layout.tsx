@@ -1,11 +1,10 @@
 import { Inter } from 'next/font/google'
 // import ScrollTop from './components/scrolltop/ScrollTop'
 import { Analytics } from '@vercel/analytics/react'
-import { NextUIProvider } from '@nextui-org/react'
 import { SpeedInsights } from "@vercel/speed-insights/next"
-
 import '@/app/global.css'
 import ToasterProvider from '@/app/components/Hot-Toast/ToastProvider'
+import NextUIProvider from './NextUIProvider'
 
 const inter = Inter({ subsets: ['latin'] })
 
