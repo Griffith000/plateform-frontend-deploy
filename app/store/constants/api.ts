@@ -1,5 +1,5 @@
-// const url = process.env.NEXT_PUBLIC_API_BASE_URL
-const url = 'http://localhost:4000/api'
+
+const url = process.env.NEXT_PUBLIC_API_BASE_URL 
 export const ENDPOINTS = {
   // DEPARTMENTS
   GET_DEPARTMENTS_NAMES_IDS: `${url}/department/names-ids`,
