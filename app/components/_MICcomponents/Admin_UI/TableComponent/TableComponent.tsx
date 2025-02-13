@@ -95,7 +95,7 @@ const EnhancedTable: React.FC<EnhancedTableProps> = ({
     console.log(n)
     if (selected === id) {
       setSelectedName(null)
-      setSelected(null) // Deselect if the same row is clicked again
+      setSelected(null)
     } else {
       setSelected(id)
       setSelectedName(n)
@@ -204,7 +204,7 @@ const EnhancedTable: React.FC<EnhancedTableProps> = ({
                         handleClick(
                           event,
                           row._id as string,
-                          row.Title.toString()
+                          row.Title ? row.Title.toString() : ''
                         )
                       }
                       role='checkbox'
