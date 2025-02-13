@@ -158,6 +158,9 @@ export default function Page() {
                         <strong>Room:</strong> {session.Room}
                       </Typography>
                       <Typography sx={{ pl: 4, pr: 4 }}>
+                        <strong>Date:</strong> {session.Date}
+                      </Typography>
+                      <Typography sx={{ pl: 4, pr: 4 }}>
                         <strong>Duration :</strong> 2 hours
                       </Typography>
                       <Typography sx={{ pl: 4, pr: 4, mb: 2 }}>
