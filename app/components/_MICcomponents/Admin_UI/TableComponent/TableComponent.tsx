@@ -19,6 +19,7 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import FilterListIcon from '@mui/icons-material/FilterList'
 import DeleteAssignmentModal from '@/mic-component/Instructor_UI/AssignmentDeleteModalForInstructor/AssignmentDeleteModalForInstructor'
 import { toast } from 'react-hot-toast'
+import TextField from '@mui/material/TextField'
 
 interface Data {
   [key: string]: string | number | string[]
@@ -56,19 +57,27 @@ const EnhancedTable: React.FC<EnhancedTableProps> = ({
 }) => {
   const [order, setOrder] = React.useState<'asc' | 'desc'>('asc')
   const [orderBy, setOrderBy] = React.useState<keyof Data>(headCells[0].id)
-  const [selected, setSelected] = React.useState<string | null>(null) // Single selection
+  const [selected, setSelected] = React.useState<string | null>(null)
   const [selectedName, setSelectedName] = React.useState<
     string | number | null
-  >(null) // Single selection
+  >(null)
   const [page, setPage] = React.useState(0)
   const [rowsPerPage, setRowsPerPage] = React.useState(defaultRowsPerPage)
   const [openDeleteDialog, setOpenDeleteDialog] = React.useState(false)
+  const [searchQuery, setSearchQuery] = React.useState('') // État pour la recherche par nom
+
+  const filteredData = data.filter(row =>
+    row['NomPrenom']
+      .toString()
+      .toLowerCase()
+      .includes(searchQuery.toLowerCase())
+  )
 
   const confirmDeleteAssignment = async () => {
     if (selected) {
       try {
         onDelete(selected)
-        toast.success('deleted successfully')
+        toast.success('Deleted successfully')
       } catch {
         toast.error('Failed to delete')
       } finally {
@@ -76,10 +85,11 @@ const EnhancedTable: React.FC<EnhancedTableProps> = ({
       }
     }
   }
+
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
       const newSelected = data.map(n => n.id as string)
-      setSelected(newSelected[0]) // Select the first item if 'select all' is checked
+      setSelected(newSelected[0]) // Sélectionner le premier élément si 'select all' est coché
     } else {
       setSelected(null)
     }
@@ -90,9 +100,6 @@ const EnhancedTable: React.FC<EnhancedTableProps> = ({
     id: string,
     n: string | number
   ) => {
-    console.log('to delete')
-    console.log(id)
-    console.log(n)
     if (selected === id) {
       setSelectedName(null)
       setSelected(null)
@@ -108,7 +115,7 @@ const EnhancedTable: React.FC<EnhancedTableProps> = ({
         sx={{ width: '100%', mb: 0, margin: 0, padding: 0, borderRadius: 2 }}
       >
         <Toolbar
-          className='rounded-t-md bg-gradient-to-r from-secondary to-primary text-white'
+          className=''
           sx={[
             { pl: { sm: 2 }, pr: { xs: 1, sm: 1 } },
             selected && {
@@ -152,6 +159,14 @@ const EnhancedTable: React.FC<EnhancedTableProps> = ({
               </IconButton>
             </Tooltip>
           )}
+          <TextField
+            label='Rechercher par nom'
+            variant='outlined'
+            size='small'
+            value={searchQuery}
+            onChange={e => setSearchQuery(e.target.value)}
+            sx={{ marginLeft: 2 }}
+          />
         </Toolbar>
         <TableContainer>
           <Table
@@ -191,7 +206,7 @@ const EnhancedTable: React.FC<EnhancedTableProps> = ({
               </TableRow>
             </TableHead>
             <TableBody>
-              {data
+              {filteredData
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map(row => {
                   const isItemSelected = selected === row.id
@@ -204,7 +219,7 @@ const EnhancedTable: React.FC<EnhancedTableProps> = ({
                         handleClick(
                           event,
                           row._id as string,
-                          row.Title ? row.Title.toString() : ''
+                          row.NomPrenom ? row.NomPrenom.toString() : 'inconnu'
                         )
                       }
                       role='checkbox'
@@ -233,7 +248,7 @@ const EnhancedTable: React.FC<EnhancedTableProps> = ({
         <TablePagination
           rowsPerPageOptions={rowsPerPageOptions}
           component='div'
-          count={data.length}
+          count={filteredData.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={(event, newPage) => setPage(newPage)}
