@@ -25,10 +25,18 @@ export default function Page() {
   const deleteAssignment = useAssignmentStore(state => state.deleteAssignment)
   const user = useAuthStore(state => state.user)
 
-  const AssignmentModal = dynamic(() => import('@/mic-component/Instructor_UI/AssignmentModal/AssignmentModal'))
-  const DeleteAssignmentModal = dynamic(() => import('@/mic-component/Instructor_UI/AssignmentDeleteModalForInstructor/AssignmentDeleteModalForInstructor'))           
-  const [currentPage, setCurrentPage] = useState(1)             
-  const [itemsPerPage] = useState(5)          
+  const AssignmentModal = dynamic(
+    () =>
+      import('@/mic-component/Instructor_UI/AssignmentModal/AssignmentModal')
+  )
+  const DeleteAssignmentModal = dynamic(
+    () =>
+      import(
+        '@/mic-component/Instructor_UI/AssignmentDeleteModalForInstructor/AssignmentDeleteModalForInstructor'
+      )
+  )
+  const [currentPage, setCurrentPage] = useState(1)
+  const [itemsPerPage] = useState(5)
   const [editingAssignment, setEditingAssignment] = useState(null)
   const [openUpdateDialog, setOpenUpdateDialog] = useState(false)
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false)
@@ -146,6 +154,7 @@ export default function Page() {
             Add New Assignment
           </Button>
           <EnhancedTable
+            filterRow={'Title'}
             data={assignments}
             headCells={headCells}
             onDelete={handleDeleteAssignment}

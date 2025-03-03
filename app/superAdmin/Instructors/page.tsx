@@ -11,7 +11,7 @@ import EnhancedTable from '@/mic-component//Admin_UI/TableComponent/TableCompone
 import Button from '@mui/material/Button'
 import { useInstructorStore } from '@/store/MyStore/InstructorStore'
 
-export default function  Page ()  {
+export default function Page() {
   const {
     instructors,
     fetchInstructors,
@@ -123,6 +123,7 @@ export default function  Page ()  {
           </div>
           <div className='flex w-full flex-col'>
             <EnhancedTable
+              filterRow={'NomPrenom'}
               data={instructors}
               headCells={headCells}
               title='List of Membres'
@@ -156,5 +157,3 @@ export default function  Page ()  {
     </Layout>
   )
 }
-
-

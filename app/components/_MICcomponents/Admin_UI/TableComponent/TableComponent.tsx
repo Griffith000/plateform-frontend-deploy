@@ -36,6 +36,7 @@ interface EnhancedTableProps {
   data: Data[]
   headCells: HeadCell[]
   title: string
+  filterRow: string
   dense?: boolean
   rowsPerPageOptions?: number[]
   defaultRowsPerPage?: number
@@ -53,7 +54,8 @@ const EnhancedTable: React.FC<EnhancedTableProps> = ({
   defaultRowsPerPage = 5,
   onDelete,
   onFilter,
-  renderRowActions
+  renderRowActions,
+  filterRow
 }) => {
   const [order, setOrder] = React.useState<'asc' | 'desc'>('asc')
   const [orderBy, setOrderBy] = React.useState<keyof Data>(headCells[0].id)
@@ -67,10 +69,7 @@ const EnhancedTable: React.FC<EnhancedTableProps> = ({
   const [searchQuery, setSearchQuery] = React.useState('') // État pour la recherche par nom
 
   const filteredData = data.filter(row =>
-    row['NomPrenom']
-      .toString()
-      .toLowerCase()
-      .includes(searchQuery.toLowerCase())
+    row[filterRow].toString().toLowerCase().includes(searchQuery.toLowerCase())
   )
 
   const confirmDeleteAssignment = async () => {
@@ -248,7 +247,7 @@ const EnhancedTable: React.FC<EnhancedTableProps> = ({
         <TablePagination
           rowsPerPageOptions={rowsPerPageOptions}
           component='div'
-          count={filteredData.length}
+          count={data.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={(event, newPage) => setPage(newPage)}

@@ -84,6 +84,7 @@ const Page: React.FC = () => {
       <Grid container spacing={1} sx={{ margin: 0, padding: 1 }}>
         <Grid item xs={8} sx={{ margin: 0, padding: 0 }}>
           <EnhancedTable
+            filterRow={'NomPrenom'}
             data={members}
             headCells={headCells}
             title='List of Membres'

@@ -19,7 +19,7 @@ export default function Page() {
   const sessions: Session[] = useSessionsStore(state => state.sessions)
   const [selectedEvent, setSelectedEvent] = useState<any>(null)
   const [currentPage, setCurrentPage] = useState(1)
-  const [itemsPerPage] = useState(1)
+  const [itemsPerPage] = useState(5)
   const handlePageChange = newPage => setCurrentPage(newPage)
   const indexOfLastItem = currentPage * itemsPerPage
   const indexOfFirstItem = indexOfLastItem - itemsPerPage

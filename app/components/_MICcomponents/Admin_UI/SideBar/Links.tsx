@@ -8,4 +8,5 @@ export const navigationLinks = [
   { label: 'Members', path: '/superAdmin/members' },
   { label: 'Sessions', path: '/superAdmin/sessions' },
   { label: 'Responses', path: '/pasEncore' },
+  { label: 'emails', path: '/superAdmin/emails' },
 ]

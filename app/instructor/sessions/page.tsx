@@ -155,6 +155,7 @@ export default function Page() {
         <Grid container spacing={2} sx={{ margin: 4, padding: 3 }}>
           <Grid item xs={12} md={8} sx={{ marginTop: 4, padding: 1 }}>
             <EnhancedTable
+              filterRow={'Title'}
               data={sessions}
               headCells={headCells}
               title='List of Sessions'
